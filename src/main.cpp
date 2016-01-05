@@ -1,5 +1,5 @@
 /*
- *  Precise Timer by Arpad Toth ( High Precision Timer Library )
+ *  List vs Vector by Arpad Toth
  *  Copyright (C) 2015  Arpad Toth
  *
  * This program is free software; you can redistribute it and/or modify
@@ -37,8 +37,8 @@
   std::cout << "  * " << FunctionName <<" took: " << timer.milliseconds() << "msecs" << std::endl;\
 }
 
-int findInsertPosition(std::vector<int>& aVector, int elem) {
-  int i = 0;
+size_t findInsertPosition(std::vector<int>& aVector, int elem) {
+  size_t i = 0;
   for (; i < aVector.size(); ++i) {
     if (aVector[i] >= elem) {
       return i;
@@ -59,7 +59,7 @@ std::list<int>::iterator findInsertPosition(std::list<int>& aList,  int elem) {
 
 void insertInVector(std::vector<int>& aVector, std::vector<int>& elems) {
   BENCHMARK_START;
-  for (int i = 0; i < elems.size(); ++i) {
+  for (size_t i = 0; i < elems.size(); ++i) {
     int position = findInsertPosition(aVector, elems[i]);
     aVector.insert(aVector.begin() + position, elems[i]);
   }
@@ -68,7 +68,7 @@ void insertInVector(std::vector<int>& aVector, std::vector<int>& elems) {
 
 void insertInList(std::list<int>& aList, std::vector<int>& elems) {
   BENCHMARK_START;
-  for (int i = 0; i < elems.size(); ++i) {
+  for (size_t i = 0; i < elems.size(); ++i) {
     std::list<int>::iterator position = findInsertPosition(aList, elems[i]);
     aList.insert(position, elems[i]);
   }
@@ -77,7 +77,7 @@ void insertInList(std::list<int>& aList, std::vector<int>& elems) {
 
 void removeFromVector(std::vector<int>& aVector, std::vector<int>& removePositions) {
   BENCHMARK_START;
-  for (int i = 0; i < removePositions.size(); ++i) {
+  for (size_t i = 0; i < removePositions.size(); ++i) {
     int position = removePositions[i];
     aVector.erase(aVector.begin() + position);
   }
@@ -86,7 +86,7 @@ void removeFromVector(std::vector<int>& aVector, std::vector<int>& removePositio
 
 void removeFromList(std::list<int>& aList, std::vector<int>& removePositions) {
   BENCHMARK_START;
-  for (int i = 0; i < removePositions.size(); ++i) {
+  for (size_t i = 0; i < removePositions.size(); ++i) {
     std::list<int>::iterator position = aList.begin();
     for (int k = 0; k < removePositions[i]; k++) {
       position++;
@@ -98,9 +98,9 @@ void removeFromList(std::list<int>& aList, std::vector<int>& removePositions) {
 
 int main() 
 {
-  srand (time(NULL));
+  srand ((int)time(NULL));
 
-  int testSize = 1000;
+  int testSize = 10000;
   std::vector<int> elems;
   std::vector<int> removePositions;
   for (int i = 0; i < testSize; ++i)
